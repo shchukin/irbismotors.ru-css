@@ -15,28 +15,17 @@ var change = require('gulp-change');
 
 
 function addSourcesTimestamp(content) {
-    var source = content.split('\n');
-    var outputLine = '';
-    var result = '';
+    const timestamp = Math.round(Date.now() / 1000);
 
-    var timestamp = Math.round(new Date().getTime() / 1000);
-
-
-    source.forEach(function (line) {
-
-        if (line.indexOf('rel="stylesheet"') !== -1) {
-            outputLine = line.replace('.css"', '.css?' + timestamp + '"');
-            result += outputLine + '\n';
-        } else if (line.indexOf('<script') !== -1 && line.indexOf('src="') !== -1 && line.indexOf('vendors/') === -1) {
-            outputLine = line.replace('.js"', '.js?' + timestamp + '"');
-            result += outputLine + '\n';
+    return content.split('\n').map(line => {
+        if (line.includes('rel="stylesheet"')) {
+            return line.replace('.css"', `.css?${timestamp}"`);
+        } else if (line.includes('<script') && line.includes('src="') && !line.includes('vendors/') && !line.includes('http') && !line.includes('https') && !line.includes('cdn')) {
+            return line.replace('.js"', `.js?${timestamp}"`);
         } else {
-            result += line + '\n';
+            return line;
         }
-
-    });
-
-    return result;
+    }).join('\n');
 }
 
 
@@ -121,14 +110,15 @@ gulp.task('clean', function () {
 });
 
 
-// Legacy: copy
+// Favicon: copy
 
-gulp.task('legacy', function () {
-    return gulp.src('src/legacy/**/*', {encoding: false})
+gulp.task('favicon', function () {
+    return gulp.src('src/favicon/**/*', {encoding: false})
         .pipe(plumber())
-        .pipe(gulp.dest('build/legacy/'))
+        .pipe(gulp.dest('build/favicon/'))
         ;
 });
+
 
 // Temp: copy
 
@@ -160,14 +150,26 @@ gulp.task('images', function () {
 });
 
 
-// Layouts: copy and change symbols <img> to sprite <svg>
+// Markups: copy and change symbols <img> to sprite <svg>
 
-gulp.task('layouts', function () {
-    return gulp.src('src/*.html', {encoding: false})
+gulp.task('markups', function () {
+    return gulp.src('src/markups/**/*', {encoding: false})
         .pipe(plumber())
         .pipe(change(symbolsImgToSpriteSvg))
         .pipe(change(addSourcesTimestamp))
-        .pipe(gulp.dest('build/'))
+        .pipe(gulp.dest('build/markups/'))
+        ;
+});
+
+
+// Layouts: copy and change symbols <img> to sprite <svg>
+
+gulp.task('layouts', function () {
+    return gulp.src('src/layouts/**/*', {encoding: false})
+        .pipe(plumber())
+        .pipe(change(symbolsImgToSpriteSvg))
+        .pipe(change(addSourcesTimestamp))
+        .pipe(gulp.dest('build/layouts/'))
         ;
 });
 
@@ -196,6 +198,17 @@ gulp.task('scripts', function () {
 });
 
 
+// Symbols
+
+gulp.task('symbols', function () {
+    return gulp.src('src/symbols/*.svg', {encoding: false})
+        .pipe(plumber())
+        .pipe(svgmin())
+        .pipe(svgstore())
+        .pipe(gulp.dest('build/symbols/'));
+});
+
+
 // Styles: concat, add prefixes, compress, copy
 
 gulp.task('styles', function () {
@@ -205,7 +218,7 @@ gulp.task('styles', function () {
         postcssHoverMediaFeature()
     ];
 
-    return gulp.src('src/styles/anton-update.css', {encoding: false})
+    return gulp.src('src/styles/styles.css', {encoding: false})
         .pipe(plumber())
         .pipe(cleanCSS({
             advanced: false,
@@ -227,7 +240,7 @@ gulp.task('styles', function () {
 gulp.task('lint', function () {
 
     return gulp.src([
-        '!src/styles/anton-update.css',
+        '!src/styles/styles.css',
         'src/styles/**/*.css'
     ], {encoding: false})
         .pipe(plumber())
@@ -241,7 +254,7 @@ gulp.task('lint', function () {
 
 
 gulp.task('default', function (fn) {
-    run('clean', 'legacy', 'temp', 'content', 'images', 'layouts', 'vendors', 'scripts', 'styles', 'lint', fn);
+    run('clean', 'favicon', 'temp', 'content', 'images', 'video', 'docs', 'markups', 'layouts', 'vendors', 'scripts', 'symbols', 'styles', 'lint', fn);
 });
 
 
