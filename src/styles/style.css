@@ -2348,6 +2348,12 @@ ul li {
   color: #fff;
   text-decoration: none;
 }
+
+.col-lg-5:has(.d-icon) {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .dgrey{opacity: .15;
     filter: grayscale(100%);
     -webkit-filter: grayscale(100%);
