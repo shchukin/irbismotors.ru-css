@@ -107,7 +107,7 @@
   /**
    * Mobile nav toggle
    */
-  on('click', '.mobile-nav-toggle', function(e) {
+  on('click', '.mobile-nav-toggle', function (e) {
     select('#navbar').classList.toggle('navbar-mobile')
     this.classList.toggle('bi-list')
     this.classList.toggle('bi-x')
@@ -116,7 +116,7 @@
   /**
    * Mobile nav dropdowns activate
    */
-  on('click', '.navbar .dropdown > a', function(e) {
+  on('click', '.navbar .dropdown > a', function (e) {
     if (select('#navbar').classList.contains('navbar-mobile')) {
       e.preventDefault()
       this.nextElementSibling.classList.toggle('dropdown-active')
@@ -126,7 +126,7 @@
   /**
    * Scrool with ofset on links with a class name .scrollto
    */
-  on('click', '.scrollto', function(e) {
+  on('click', '.scrollto', function (e) {
     if (select(this.hash)) {
       e.preventDefault()
 
@@ -200,9 +200,9 @@
 
       let portfolioFilters = select('#portfolio-flters li', true);
 
-      on('click', '#portfolio-flters li', function(e) {
+      on('click', '#portfolio-flters li', function (e) {
         e.preventDefault();
-        portfolioFilters.forEach(function(el) {
+        portfolioFilters.forEach(function (el) {
           el.classList.remove('filter-active');
         });
         this.classList.add('filter-active');
@@ -210,7 +210,7 @@
         portfolioIsotope.arrange({
           filter: this.getAttribute('data-filter')
         });
-        portfolioIsotope.on('arrangeComplete', function() {
+        portfolioIsotope.on('arrangeComplete', function () {
           AOS.refresh()
         });
       }, true);
@@ -287,6 +287,38 @@
    * Initiate Pure Counter
    */
   new PureCounter();
+
+
+
+  /* Load youtube videos */
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const videos = document.querySelectorAll(".youtube");
+
+    videos.forEach(video => {
+      // Set thumbnail background image
+      video.style.backgroundImage = `url(https://i.ytimg.com/vi/${video.id}/sddefault.jpg)`;
+
+      // Create play button overlay
+      const playButton = document.createElement("div");
+      playButton.classList.add("play");
+      video.appendChild(playButton);
+
+      video.addEventListener("click", () => {
+        const iframe = document.createElement("iframe");
+        let iframeUrl = `https://www.youtube.com/embed/${video.id}?autoplay=1&autohide=1`;
+        const params = video.getAttribute("data-params");
+        if (params) iframeUrl += `&${params}`;
+
+        iframe.src = iframeUrl;
+        iframe.frameBorder = "0";
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
+
+        video.replaceWith(iframe);
+      });
+    });
+  });
 
 })()
 

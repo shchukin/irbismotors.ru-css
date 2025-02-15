@@ -22,7 +22,7 @@ img {max-width:100%;}
     justify-content: flex-end;
     align-content: center;
     flex-wrap: wrap;align-items: center;}
-	
+
 	div.cont i {
     font-size: 22px;
     color: #e03a3c;
@@ -163,7 +163,7 @@ h6 {
 # Navigation Menu
 --------------------------------------------------------------*/
 /**
-* Desktop Navigation 
+* Desktop Navigation
 */
 .navbar {
   padding: 0;
@@ -273,7 +273,7 @@ h6 {
 }
 
 /**
-* Mobile Navigation 
+* Mobile Navigation
 */
 .mobile-nav-toggle {
   color: #111111;
@@ -444,7 +444,7 @@ h6 {
   background: red;
   border-color: #fff; color:white;
 }
-#hero .btn-get-started:hover { 
+#hero .btn-get-started:hover {
   background: transparent;
   border-color: #fff;
 }
@@ -2217,7 +2217,7 @@ ul li {
   font-size: 14px;
   line-height: 24px;
   margin-bottom: 0;
- 
+
 }
 
 #footer .footer-top h4 {
@@ -2328,7 +2328,7 @@ ul li {
   font-size: 13px;
 }
 
-#footer .social-links a { 
+#footer .social-links a {
   font-size: 18px;
   display: inline-block;
   background: #2b2b2b;
@@ -2375,7 +2375,7 @@ iframe{    padding: 7px;
     cursor: pointer;
 }
 .youtube .play {
-    background: url('/images/youtube-play-btn.png') no-repeat; /*ВАЖНО: здесь укажите адрес до изображения*/
+    background: url('../images/youtube-play-btn.png') no-repeat;
     background-position: 0 -50px;
     -webkit-background-size: 100% auto;
     background-size: 100% auto;
