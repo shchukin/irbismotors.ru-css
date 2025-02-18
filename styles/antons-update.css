@@ -1,0 +1,29 @@
+.phone-link {
+  display: flex;
+  align-items: flex-start;
+  vertical-align: baseline;
+  color: inherit;
+}
+
+.phone-link:hover {
+  color: inherit;
+}
+
+.connect {
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: fit-content;
+  background-color: #e03a3c;
+  border: 0;
+  padding: 10px 32px;
+  color: #FFFFFF;
+  transition: 0.4s;
+  border-radius: 4px;
+}
+
+.connect:hover {
+  background-color: #e35052;
+  color: #FFFFFF;
+}
